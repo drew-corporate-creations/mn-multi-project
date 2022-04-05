@@ -1,0 +1,35 @@
+plugins {
+    id "idea"
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2" apply false
+    id 'java'
+}
+
+subprojects {
+
+    group = "com.mn.multiproject"
+    version = "1.0-SNAPSHOT"
+
+    apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'java'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    publishing {
+        publications {
+            shadow(MavenPublication) { publication ->
+                project.shadow.component(publication)
+            }
+        }
+    }
+
+    shadowJar {
+        archiveClassifier=null
+        mergeServiceFiles()
+    }
+}
